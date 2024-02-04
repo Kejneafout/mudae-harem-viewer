@@ -1,0 +1,24 @@
+page background color: #313338
+mudae profile picture: 40x40 rounded border-radius
+
+body size: 230x376 (without sidebar), rounded border-radius
+firstmarry image on top-right corner: 52x80, rounded border-radius
+sidebar: #670d08
+kakera icon size: 44x44
+background: #2b2d31
+buttons size: 64x32
+buttons background: #4e5058
+buttons images size: 44x44, centered
+harem name on top-left, centered
+15 lines of names, 16th line is pagination
+$mmi-r-k-s output => JSON object
+
+add export button to save data:
+-download images from links using fetch
+-download json object data, with local image paths
+-download .zip file with .json and media/*.{png,gif}
+
+import does the opposite:
+-look into the zip
+-read the .json
+-read the media/*.{png,gif}

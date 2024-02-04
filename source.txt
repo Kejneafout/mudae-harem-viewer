@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Mudae Embed Simulator</title>
+  </head>
+
+  <body>
+      <h1>Mudae Embed Simulator</h1>
+      <div>
+      <label for="mmirks">$mmi-r-k-s output:</label><br>
+      <textarea id="mmirks" name="mmirks" rows="6" cols="66"></textarea><br>
+
+      <button type="button" onclick="loadHarem()">Load</button>
+    </div>
+    <br>
+    <div id="botDetails">
+      <img id="mudaeImage" src="https://cdn.discordapp.com/avatars/432610292342587392/29cb28fbf65a3958105026ab03abd306.webp?size=80" width="40" height="40">
+      <b id="mudaeName">Mudae</b>
+    </div>
+    <div id="embedSim">
+
+    </div>
+
+  </body>
+
+</html>
+
+
+
+body {
+  background-color: #313338;  
+}
+
+h1, label {
+  color: white;
+  font-weight: bold;
+}
+
+#mudaeImage {
+  border-radius: 20px;
+}
+
+#mudaeName {
+  position: absolute;
+  padding-left: 10px;
+  color: white;
+}
+
+#embedSim {
+  background-color: #2b2d31;
+  width: 230px;
+  height: 376px;
+  color: white;
+  border-left: 5px solid #670d08;
+  border-radius: 5px;
+}
+
+
+var mmirksJson;
+
+function loadHarem() {
+  var input = document.getElementById("mmirks").value;
+  var regex = /^(#\d+).{3}(\w+.\w+).{3}(.+) (\d+ ka).{3}(.+)/;
+
+  // Add all lines into an array
+  var _data = input.split('\n');
+  var _head = _data.slice(0, 6);
+  var _body = _data.slice(7);
+
+  const title = _head[0].trim();
+  const total = _head[5].match(/\d+/)[0];
+
+  var data = {
+    metadata: {
+      title: title,
+      total: total
+    }
+  };
+
+  var characters = [];
+
+  for (var line of _body) {
+    var elements = line.match(regex);
+
+    var character = {};
+    character.line = elements[0];
+    character.rank = elements[1];
+    character.name = elements[2];
+    character.title = elements[3];
+    character.value = elements[4];
+    character.image = elements[5];
+    characters.push(character);
+  }
+  data.characters = characters;
+  mmirksJson = data;
+
+  displayHarem(displayOptions);
+}
+
+var displayOptions = {
+  showRanks: false,
+  sortByRank: false,
+  showNotes: false,
+  showValues: false
+}
+
+
+function displayHaremList(options) {
+  // Display 15 lines in the div with id "embedSim"
+  var displayDiv = document.getElementById("embedSim");
+  displayDiv.innerHTML = "";
+  var displayCount = 0;
+
+  var titleDiv = document.createElement("div");
+  var image = document.createElement("img")
+  var newline = document.createElement("br");
+  
+  titleDiv.textContent = mmirksJson.metadata.title;
+  titleDiv.style["font-weight"] = "bold";
+  titleDiv.style.padding = "20px";
+  
+  image.src = "https://mudae.net/uploads/1434487/lT5XJCEg_VD7pB6dAR7E~OPsDKst.png";
+  image.width = 52;
+  image.height = 80;
+  image.style["border-radius"] = "3px";
+  
+  displayDiv.appendChild(titleDiv);
+  displayDiv.appendChild(image);
+  displayDiv.appendChild(newline);
+
+  for (var i = 0; i < mmirksJson.characters.length && displayCount < 15; i++) {
+    var lineDiv = document.createElement("div");
+    lineDiv.textContent = mmirksJson.characters[i].name;
+    lineDiv.style["padding-left"] = "10px";
+    displayDiv.appendChild(lineDiv);
+    displayCount++;
+  }
+}
+
+function displayHaremImages(options) {
+  return;
+}
+
+object.sort((a, b) => {
+  return parseInt(a.a.slice(1)) - parseInt(b.a.slice(1));
+});
