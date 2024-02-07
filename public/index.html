@@ -3,19 +3,34 @@
 
   <head>
     <title>Mudae Embed Simulator</title>
+    <link rel="stylesheet" href="styles.css">
   </head>
 
   <body>
     <h1>Mudae Embed Simulator</h1>
+
+    <div>
+      <h2>Step 1: Upload the ZIP archive of your harem.</h2>
+      <form id="uploadForm" method="POST" enctype="multipart/form-data">
+	<input type="file" id="fileInput" name="file" accept=".zip" required>
+	<br>
+	<input type="submit" value="Upload">
+	<div class="filesize">Max file size: 100MB</div>
+      </form>
+    </div>
+
+    <h2>Step 2: Enjoy !</h2>
+
     <div id="botDetails">
-      <img id="mudaeImage" src="https://cdn.discordapp.com/avatars/432610292342587392/29cb28fbf65a3958105026ab03abd306.webp?size=80" width="40" height="40">
+      <img id="mudaeImage" src="assets/mudae.webp?size=80" width="40" height="40">
       <b id="mudaeName">Mudae</b>
     </div>
-    <div id="embedSim">
 
+    <div id="embedSim">
+      <!-- -->
     </div>
 
+    <script src="scripts.js"></script>
   </body>
 
 </html>
-
