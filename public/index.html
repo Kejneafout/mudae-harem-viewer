@@ -2,6 +2,8 @@
 <html>
 
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mudae Embed Simulator</title>
     <link rel="stylesheet" href="styles.css">
   </head>
@@ -15,19 +17,31 @@
 	<input type="file" id="fileInput" name="file" accept=".zip" required>
 	<br>
 	<input type="submit" value="Upload">
-	<div class="filesize">Max file size: 100MB</div>
+	<div class="message">Max file size: 100 MB</div>
+	<br>
+	<button type="button" id="useExistingData">Use Existing Data</button>
+	<div class="message">If you already uploaded an archive.</div>
       </form>
     </div>
 
     <h2>Step 2: Enjoy !</h2>
 
     <div id="botDetails">
-      <img id="mudaeImage" src="assets/mudae.webp?size=80" width="40" height="40">
+      <img id="mudaeImage" src="assets/mudae.webp" width="40" height="40">
       <b id="mudaeName">Mudae</b>
     </div>
 
     <div id="embedSim">
       <!-- -->
+    </div>
+
+    <div id="buttonsDiv">
+      <button class="embedButtons" id="embedPrev">
+	<img class="buttonsImages" id="prevImage" src="assets/prev.webp" width="19" height="19">
+      </button>
+      <button class="embedButtons" id="embedNext">
+	<img class="buttonsImages" id="nextImage" src="assets/next.webp" width="19" height="19">
+      </button>
     </div>
 
     <script src="scripts.js"></script>

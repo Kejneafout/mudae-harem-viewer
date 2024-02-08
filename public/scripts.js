@@ -40,4 +40,17 @@ document.addEventListener('DOMContentLoaded', function() {
 		// Handle errors
 	    });
     });
+    document.getElementById('useExistingData').addEventListener('click', async () => {
+	try {
+	    const response = await fetch('/uploads/data.json');
+	    if (!response.ok) {
+		throw new Error('Failed to fetch data');
+	    }
+	    const jsonData = await response.json();
+	    // Do something with jsonData
+	    console.log(jsonData);
+	} catch (error) {
+	    console.error('Error fetching data:', error);
+	}
+    });
 });
