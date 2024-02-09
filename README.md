@@ -17,19 +17,21 @@ So you can view information about characters, including their rank, name, note, 
 
 ## Installation
 
-1. Clone the repository:
+1. Install Node.js on your system, preferably using [nvm](https://github.com/nvm-sh/nvm) for Linux or [nvm-windows](https://github.com/coreybutler/nvm-windows) for Windows
+
+2. Clone the repository:
 
    ```bash
    git clone https://github.com/Kejneafout/mudae-harem-viewer.git
    ```
 
-2. Navigate to the project directory:
+3. Navigate to the project directory:
 
    ```bash
    cd mudae-harem-viewer
    ```
 
-3. Install dependencies:
+4. Install dependencies:
 
    ```bash
    npm install
