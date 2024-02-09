@@ -4,16 +4,22 @@ The Mudae Harem Viewer is a web application designed to display and interact wit
 
 This project allows users to simulate the behavior of the `$mm` command.
 
-So you can view information about characters, including their rank, name, note, kakera value, and associated image.
-
-
 ## Features
 
 - Upload a zip archive containing character data and images.
 - View a list of characters from the Mudae bot's harem.
-- Display detailed information about each character, including their rank, name, title, and value.
+- Display detailed information about each character.
 - View associated images for each character.
 - View existing character data without re-uploading.
+
+You can view the following information about characters:
+- Name
+- Series
+- Value
+- Claim rank
+- Note
+- Image
+
 
 ## Installation
 
