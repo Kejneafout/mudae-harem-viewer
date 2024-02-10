@@ -39,11 +39,6 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
 
     console.log('Received file upload request:', req.file.originalname);
 
-    // Check if uploads/ exists, if not, create it
-    if (!fs.existsSync('uploads/')) {
-        fs.mkdirSync('uploads/', { recursive: true });
-    }
-
     const uploadFolderPath = path.join(__dirname, 'uploads');
     const zipFilePath = path.join(uploadFolderPath, req.file.filename);
 
@@ -82,4 +77,9 @@ app.use((err, req, res, next) => {
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+
+    // Check if uploads/ exists, if not, create it
+    if (!fs.existsSync('uploads/')) {
+        fs.mkdirSync('uploads/', { recursive: true });
+    }
 });
