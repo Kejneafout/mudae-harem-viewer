@@ -23,39 +23,50 @@ You can view the following information about characters:
 
 ## Installation
 
-1. Install Node.js on your system, preferably using [nvm](https://github.com/nvm-sh/nvm) for Linux or [nvm-windows](https://github.com/coreybutler/nvm-windows) for Windows
+You have two options:
+1. Download and use the pre-compiled binaries in [Releases](https://github.com/Kejneafout/mudae-harem-downloader/releases/tag/v1.0.0)
+2. Clone the repository and compile the app yourself:
 
-2. Clone the repository:
-
+- You need [Go](https://golang.org/doc/install) installed on your system.
+- Clone this repository to your local machine.
    ```bash
    git clone https://github.com/Kejneafout/mudae-harem-viewer.git
    ```
-
-3. Navigate to the project directory:
-
+- Navigate to the project directory.
    ```bash
    cd mudae-harem-viewer
    ```
-
-4. Install dependencies:
-
+- Install dependencies:
    ```bash
-   npm install
+   go mod tidy
+   ```
+- Build the executable.
+   ```bash
+   go build .
    ```
 
 ## Dependencies
 
-The Mudae Harem Viewer relies on the following npm packages:
+The Mudae Harem Viewer relies on the following packages:
 
-- [Express.js](https://www.npmjs.com/package/express): Web framework for Node.js.
-- [Multer](https://www.npmjs.com/package/multer): Middleware for handling file uploads.
-- [Adm-zip](https://www.npmjs.com/package/adm-zip): Library for extracting zip archives.
-- [Serve-index](https://www.npmjs.com/package/serve-index): Middleware for serving directory listings.
+- [Mux](https://github.com/gorilla/mux) v1.8.1
 
 ## Usage
 
-1. Start the server using `npm run start`.
-2. Access the application in your web browser at `http://localhost:3000`.
+1. Start the server using:
+
+- On Linux:
+```bash
+./mudae-harem-viewer
+```
+
+- On Windows:
+```cmd
+.\mudae-harem-viewer.exe
+```
+
+2. Access the app in your web browser at `http://localhost:3000`
+3. Follow the instructions, upload an archive or use existing data.
 
 ## License
 
