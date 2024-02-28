@@ -9,7 +9,7 @@ h1, h2 {
     text-align: center;
 }
 
-label {
+label, p {
     color: white;
     font-weight: bold;
 }

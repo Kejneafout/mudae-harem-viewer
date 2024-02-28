@@ -4,12 +4,12 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mudae Embed Simulator</title>
+    <title>Mudae Harem Viewer</title>
     <link rel="stylesheet" href="styles.css">
   </head>
 
   <body>
-    <h1>Mudae Embed Simulator</h1>
+    <h1>Mudae Harem Viewer</h1>
 
     <div>
       <h2>Step 1: Upload the ZIP archive of your harem.</h2>
@@ -24,7 +24,7 @@
       </form>
     </div>
 
-    <h2>Step 2: Enjoy !</h2>
+    <h2>Step 2: Browse.</h2>
 
     <div id="botDetails">
       <img id="mudaeImage" src="assets/mudae.webp" width="40" height="40">
@@ -50,6 +50,32 @@
       <button class="embedButtons" id="embedNext">
 	<img class="buttonsImages" id="nextImage" src="assets/next.webp" width="19" height="19">
       </button>
+    </div>
+
+    <div id="optionsDiv" hidden>
+      <h2>Step 3: Change Display Options</h2>
+
+      <p>View:</p>
+      <input type="radio" name="view" id="viewList" value="list" checked>
+      <label for="viewList">List</label>
+      <input type="radio" name="view" id="viewImage" value="image">
+      <label for="viewImage">Image</label>
+
+      <p>Sort by:</p>
+      <input type="radio" name="sortBy" id="sortByDefault" value="default" checked>
+      <label for="sortByDefault">Default</label>
+      <input type="radio" name="sortBy" id="sortByRank" value="rank">
+      <label for="sortByRank">Rank</label>
+      <input type="radio" name="sortBy" id="sortByKakera" value="kakera">
+      <label for="sortByKakera">Kakera</label>
+
+      <p>Show:</p>
+      <input type="checkbox" name="show" id="showRank" value="rank">
+      <label for="showRank">Rank</label>
+      <input type="checkbox" name="show" id="showKakera" value="kakera">
+      <label for="showKakera">Kakera</label>
+      <input type="checkbox" name="show" id="showNote" value="note">
+      <label for="showNote">Note</label>
     </div>
 
     <script src="scripts.js"></script>

@@ -1,3 +1,15 @@
+// Initialize options object
+let haremJson = {};
+let displayOptions = {
+  view: "list",
+  sortBy: "default",
+  show: {
+    rank: false,
+    kakera: false,
+    note: false
+  }
+};
+
 document.addEventListener('DOMContentLoaded', function() {
 
     // Upload a new archive
@@ -27,13 +39,20 @@ document.addEventListener('DOMContentLoaded', function() {
 	})
 	    .then(response => {
 		if (!response.ok) {
-		    throw new Error('Network response was not ok');
+		    throw new Error('Failed to upload data to the server');
 		}
 		return response.json(); // Parse response JSON
 	    })
 	    .then(data => {
 		console.log('Received data:', data);
 		// Handle response data as needed
+		// Get all elements with the hidden attribute
+		const hiddenElements = document.querySelectorAll('[hidden]');
+
+		// Loop through each hidden element and remove the hidden attribute to show them
+		hiddenElements.forEach(element => {
+		    element.removeAttribute('hidden');
+		});
 	    })
 	    .catch(error => {
 		console.error('Upload failed:', error);
@@ -51,44 +70,50 @@ document.addEventListener('DOMContentLoaded', function() {
 	    const jsonData = await response.json();
 	    // Do something with jsonData
 	    console.log(jsonData);
+	    // Get all elements with the hidden attribute
+	    const hiddenElements = document.querySelectorAll('[hidden]');
+
+	    // Loop through each hidden element and remove the hidden attribute to show them
+	    hiddenElements.forEach(element => {
+		element.removeAttribute('hidden');
+	    });
+
 	} catch (error) {
 	    console.error('Error fetching data:', error);
 	}
     });
+
+    // Get all radio buttons and checkboxes
+    const radios = document.querySelectorAll('input[type="radio"]');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    // Add event listeners to radios and checkboxes
+    radios.forEach(radio => {
+	radio.addEventListener('click', (event) => updateOptions(event.target));
+    });
+
+    checkboxes.forEach(checkbox => {
+	checkbox.addEventListener('click', (event) => updateOptions(event.target));
+    });
 });
 
-/* ChatGPT tips for future reference
+// Function to update displayOptions object
+function updateOptions(element) {
 
-// Assuming your array is named 'data'
-const data = [...]; // your array here
-// Check the length of the array
-const arrayLength = data.length;
-// Calculate the number of pages
-const numberOfPages = Math.ceil(arrayLength / 15);
+    const elementType = element.getAttribute('type');
+    const elementName = element.getAttribute('name');
+    const elementValue = element.getAttribute('value');
+    const isChecked = elementType === 'checkbox' ? element.checked : true;
 
-// Assuming your element has an id of 'myElement'
-const element = document.getElementById('myElement');
-// To show the element by setting hidden attribute to false
-element.hidden = false;
-// Alternatively, you can remove the hidden attribute
-element.removeAttribute('hidden');
+    if (elementType === 'checkbox') {
+	displayOptions.show[elementValue] = isChecked;
+    } else {
+	displayOptions[elementName] = elementValue;
+    }
 
-// Assuming your array is named 'data'
-const data = [...]; // your array here
-// Take the first 15 elements
-const firstFifteen = data.slice(0, 15);
-// Take the next 15 elements starting from offset 30
-const nextFifteen = data.slice(30, 45);
+    console.log('Updated options:', displayOptions);
+}
 
-// Assuming your array is named 'data'
-const data = [...]; // your array here
-// Sort the array based on the numerical part of the 'rank' property
-data.sort((a, b) => {
-    // Extract numerical part of rank (remove '#' sign and parse as integer)
-    const rankA = parseInt(a.rank.substring(1));
-    const rankB = parseInt(b.rank.substring(1));
-    
-    return rankA - rankB;
-});
+function displayData(data, options) {
 
-*/
+}
