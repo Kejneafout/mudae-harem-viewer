@@ -1,14 +1,15 @@
-// Initialize options object
-let haremJson = {};
-let displayOptions = {
-  view: "list",
-  sortBy: "default",
-  show: {
-    rank: false,
-    kakera: false,
-    note: false
-  }
+// Initialize global variables
+displayOptions = {
+    view: "list",
+    sortBy: "default",
+    show: {
+	rank: false,
+	series: false,
+	kakera: false,
+	note: false
+    }
 };
+currentPage = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -44,15 +45,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		return response.json(); // Parse response JSON
 	    })
 	    .then(data => {
-		console.log('Received data:', data);
-		// Handle response data as needed
-		// Get all elements with the hidden attribute
-		const hiddenElements = document.querySelectorAll('[hidden]');
+		haremJson = data;
+		originalOrder = haremJson.characters.slice();
 
-		// Loop through each hidden element and remove the hidden attribute to show them
-		hiddenElements.forEach(element => {
-		    element.removeAttribute('hidden');
-		});
+		unhideDivs();
+		displayData(haremJson, displayOptions);
 	    })
 	    .catch(error => {
 		console.error('Upload failed:', error);
@@ -68,16 +65,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		throw new Error('Failed to fetch data');
 	    }
 	    const jsonData = await response.json();
-	    // Do something with jsonData
-	    console.log(jsonData);
-	    // Get all elements with the hidden attribute
-	    const hiddenElements = document.querySelectorAll('[hidden]');
+	    haremJson = jsonData;
+	    originalOrder = haremJson.characters.slice();
 
-	    // Loop through each hidden element and remove the hidden attribute to show them
-	    hiddenElements.forEach(element => {
-		element.removeAttribute('hidden');
-	    });
-
+	    unhideDivs();
+	    displayData(haremJson, displayOptions);
 	} catch (error) {
 	    console.error('Error fetching data:', error);
 	}
@@ -95,7 +87,30 @@ document.addEventListener('DOMContentLoaded', function() {
     checkboxes.forEach(checkbox => {
 	checkbox.addEventListener('click', (event) => updateOptions(event.target));
     });
+
+    // Event listener for the previous button
+    document.getElementById("embedPrev").addEventListener("click", function() {
+	// Make sure the counter doesn't go below zero
+	if (currentPage > 0) {
+	    currentPage--;
+	    // Do something with the currentPage, for example, update UI
+	}
+    });
+
+    // Event listener for the next button
+    document.getElementById("embedNext").addEventListener("click", function() {
+	// Make sure the counter doesn't go above maxPage
+	if (currentPage < maxPage) {
+	    currentPage++;
+	    // Do something with the currentPage, for example, update UI
+	}
+    });
 });
+
+function setPageNumbers(data) {
+    // Calculate the number of pages
+    maxPage = Math.ceil(haremJson.characters.length / 15) - 1;
+}
 
 // Function to update displayOptions object
 function updateOptions(element) {
@@ -111,9 +126,123 @@ function updateOptions(element) {
 	displayOptions[elementName] = elementValue;
     }
 
-    console.log('Updated options:', displayOptions);
+    displayData(haremJson, displayOptions);
+}
+
+function unhideDivs() {
+    // Get all elements with the hidden attribute
+    const hiddenElements = document.querySelectorAll('[hidden]');
+
+    // Loop through each hidden element and remove the hidden attribute to show them
+    hiddenElements.forEach(element => {
+	element.removeAttribute('hidden');
+    });
+}
+
+function displayTotalValue(total) {
+    var haremContents = document.getElementById('haremContents');
+    var resultsContainer = document.createElement('div');
+    var resultsText = document.createElement('span');
+    var lineBreak = document.createElement('br');
+
+    resultsText.innerHTML = `Total value: <b>${total}</b>`;
+
+    // Add the kakera icon
+    var kakeraIcon = document.createElement('img');
+    kakeraIcon.src = 'assets/kakera.webp';
+    kakeraIcon.alt = 'ka';
+    kakeraIcon.width = 18;
+    kakeraIcon.height = 18;
+
+    resultsContainer.style.display = 'flex';
+    resultsContainer.style.alignItems = 'center';
+    resultsContainer.appendChild(resultsText);
+    resultsContainer.appendChild(kakeraIcon);
+
+    haremContents.appendChild(resultsContainer);
+    haremContents.appendChild(lineBreak);
+}
+
+// Sort the array based on the numerical part of the 'rank' property
+function sortByRank(data) {
+    data.sort((a, b) => {
+	// Extract numerical part of rank (remove '#' sign and parse as integer)
+	const rankA = parseInt(a.rank.substring(1));
+	const rankB = parseInt(b.rank.substring(1));
+
+	return rankA - rankB;
+    });
+
+    return (data);
+}
+
+// Sort the array based on the numerical part of the 'value' property
+function sortByKakera(data) {
+    data.sort((a, b) => {
+	// Extract numeric values from the strings
+	const valueA = parseInt(a.value);
+	const valueB = parseInt(b.value);
+
+	return valueB - valueA;
+    });
+
+    return (data);
 }
 
 function displayData(data, options) {
+    // Clear the haremContents div
+    let haremContents = document.getElementById("haremContents");
+    haremContents.innerHTML = "";
 
+    if (options.view === "list") {
+	// Change harem title
+	document.getElementById("haremTitle").textContent = data.metadata.title;
+	if (options.show.kakera)
+	    displayTotalValue(data.metadata.total);	
+	// Take 15 elements from data based on page number
+	var chunkStart = 15 * currentPage;
+	var chunkEnd = 15 * (currentPage + 1);
+
+	if (options.sortBy === "rank") {
+	    haremJson.characters = sortByRank(data.characters);
+	} else if (options.sortBy === "kakera") {
+	    haremJson.characters = sortByKakera(data.characters);
+	} else {
+	    // Revert to original order
+	    haremJson.characters = originalOrder.slice();
+	}
+
+	var firstImage = document.getElementById("firstMarryImage");
+	firstImage.src = '/uploads/' + data.characters[0].image;
+
+	const currentChunk = data.characters.slice(chunkStart, chunkEnd);
+	currentChunk.forEach(function(item) {
+	    var resultsText = document.createElement('span');
+	    var resultsContainer = document.createElement('div');
+
+	    let dynamicText = '';
+
+	    if (options.show.rank) {
+		dynamicText += `<b>${item.rank}</b> - `;
+	    }
+	    dynamicText += item.name;
+	    if (options.show.note === true) {
+		dynamicText += ` | <b>${item.note}</b>`;
+	    }
+	    if (options.show.series) {
+		dynamicText += ` - ${item.series}`;
+	    }
+	    if (options.show.kakera) {
+		// Split the kakera value
+		let parts = item.value.split(' ');
+		// Display only the number in bold, without ka
+		dynamicText += ` <b>${parts[0]}</b> ${parts[1]}`;
+	    }
+
+	    resultsText.innerHTML = dynamicText;
+	    resultsContainer.appendChild(resultsText);
+	    haremContents.appendChild(resultsContainer);
+	});
+    } else {
+    }
 }
