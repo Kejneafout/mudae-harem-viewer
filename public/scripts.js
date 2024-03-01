@@ -90,27 +90,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener for the previous button
     document.getElementById("embedPrev").addEventListener("click", function() {
-	// Make sure the counter doesn't go below zero
-	if (currentPage > 0) {
+	if (currentPage <= 0)
+	    currentPage = maxPage;
+	else
 	    currentPage--;
-	    // Do something with the currentPage, for example, update UI
-	}
+	document.getElementById("currentPage").innerText = currentPage + 1;
+	displayData(haremJson, displayOptions);
     });
 
     // Event listener for the next button
     document.getElementById("embedNext").addEventListener("click", function() {
-	// Make sure the counter doesn't go above maxPage
-	if (currentPage < maxPage) {
+	// Reset currentPage if it goes above maxPage
+	if (currentPage >= maxPage)
+	    currentPage = 0;
+	else
 	    currentPage++;
-	    // Do something with the currentPage, for example, update UI
-	}
+	document.getElementById("currentPage").innerText = currentPage + 1;
+	displayData(haremJson, displayOptions);
     });
 });
-
-function setPageNumbers(data) {
-    // Calculate the number of pages
-    maxPage = Math.ceil(haremJson.characters.length / 15) - 1;
-}
 
 // Function to update displayOptions object
 function updateOptions(element) {
@@ -124,8 +122,10 @@ function updateOptions(element) {
 	displayOptions.show[elementValue] = isChecked;
     } else {
 	displayOptions[elementName] = elementValue;
-    }
 
+	currentPage = 0;
+	document.getElementById("currentPage").innerText = "1";
+    }
     displayData(haremJson, displayOptions);
 }
 
@@ -194,26 +194,41 @@ function displayData(data, options) {
     let haremContents = document.getElementById("haremContents");
     haremContents.innerHTML = "";
 
+    var discordImage = document.getElementById("discordImage");
+    var haremTitle = document.getElementById("haremTitle");
+    var firstMarryImage = document.getElementById("firstMarryImage");
+    var characterImage = document.getElementById("characterImage");
+
+    if (options.sortBy === "rank") {
+        haremJson.characters = sortByRank(data.characters);
+    } else if (options.sortBy === "kakera") {
+        haremJson.characters = sortByKakera(data.characters);
+    } else {
+        // Revert to original order
+        haremJson.characters = originalOrder.slice();
+    }
+
     if (options.view === "list") {
+	// Adjust the margin to avoid line break
+	haremContents.style.marginRight = "90px";
+	// Show discordImage, haremTitle and firstMarryImage
+	discordImage.style.display = "inline";
+	haremTitle.style.display = "inline";
+	firstMarryImage.style.display = "inline";
+	// Hide characterImage
+	characterImage.style.display = "none";
 	// Change harem title
-	document.getElementById("haremTitle").textContent = data.metadata.title;
+	haremTitle.textContent = data.metadata.title;
 	if (options.show.kakera)
 	    displayTotalValue(data.metadata.total);	
+	// Calculate the number of pages
+	maxPage = Math.ceil(haremJson.characters.length / 15) - 1;
+	document.getElementById("maxPage").innerText = maxPage + 1;
 	// Take 15 elements from data based on page number
 	var chunkStart = 15 * currentPage;
 	var chunkEnd = 15 * (currentPage + 1);
 
-	if (options.sortBy === "rank") {
-	    haremJson.characters = sortByRank(data.characters);
-	} else if (options.sortBy === "kakera") {
-	    haremJson.characters = sortByKakera(data.characters);
-	} else {
-	    // Revert to original order
-	    haremJson.characters = originalOrder.slice();
-	}
-
-	var firstImage = document.getElementById("firstMarryImage");
-	firstImage.src = '/uploads/' + data.characters[0].image;
+	firstMarryImage.src = '/uploads/' + data.characters[0].image;
 
 	const currentChunk = data.characters.slice(chunkStart, chunkEnd);
 	currentChunk.forEach(function(item) {
@@ -225,9 +240,15 @@ function displayData(data, options) {
 	    if (options.show.rank) {
 		dynamicText += `<b>${item.rank}</b> - `;
 	    }
-	    dynamicText += item.name;
-	    if (options.show.note === true) {
-		dynamicText += ` | <b>${item.note}</b>`;
+
+	    // If view.series is enabled, set name in bold
+	    if (options.show.series)
+		dynamicText += `<b>${item.name}</b>`;
+	    else
+		dynamicText += item.name;
+
+	    if (options.show.note) {
+		dynamicText += ` | ${item.note}`;
 	    }
 	    if (options.show.series) {
 		dynamicText += ` - ${item.series}`;
@@ -244,5 +265,48 @@ function displayData(data, options) {
 	    haremContents.appendChild(resultsContainer);
 	});
     } else {
+	// Adjust the margin to avoid empty space
+	haremContents.style.marginRight = "10px";
+	// Hide discordImage and haremTitle
+	discordImage.style.display = "none";
+	haremTitle.style.display = "none";
+	firstMarryImage.style.display = "none";
+	// Show characterImage
+	characterImage.style.display = "inline";
+        // Calculate the number of pages
+        maxPage = haremJson.characters.length - 1;
+        document.getElementById("maxPage").innerText = maxPage + 1;
+
+	var resultsText = document.createElement('span');
+	var resultsContainer = document.createElement('div');
+
+	let item = data.characters[currentPage];
+	let dynamicText = `<b>${item.name}</b>`;
+
+	if (options.show.series) {
+	    dynamicText += `<br>${item.series}`;
+	}
+	if (options.show.kakera) {
+	    // Split the kakera value
+	    let parts = item.value.split(' ');
+	    // Display only the number in bold, without ka
+	    dynamicText += `<br><b>${parts[0]}</b>`;
+	    // Add the kakera icon directly to dynamicText
+	    dynamicText += `<img src="assets/kakera.webp" alt="ka" width="18" height="18" style="vertical-align: middle;">`;
+    	}
+
+	if (options.show.rank) {
+	    dynamicText += `<br>Claim Rank: ${item.rank}`;
+	}
+
+	if (options.show.note) {
+	    dynamicText += `<br><i>${item.note}</i>`;
+	}
+	// Append the dynamic text to the results container
+	resultsContainer.innerHTML += dynamicText;
+	// Append the results container to the harem contents
+	haremContents.appendChild(resultsContainer);
+	// Load the character image
+	characterImage.src = '/uploads/' + data.characters[currentPage].image;
     }
 }

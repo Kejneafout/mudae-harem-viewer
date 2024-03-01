@@ -88,8 +88,15 @@ input[type="submit"]:hover, #useExistingData:hover {
 #haremContents {
     margin-top: 20px;
     margin-left: 10px;
-    margin-right: 90px;
+    margin-right: 10px;
     margin-bottom: 20px;
+}
+
+#characterImage {
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 #haremPages {
