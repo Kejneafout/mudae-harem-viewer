@@ -70,4 +70,4 @@ The Mudae Harem Viewer relies on the following packages:
 
 ## License
 
-This project is licensed under the GNU General Public License (GPL) - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU General Public License (GPL) - see the [COPYING](COPYING) file for details.
