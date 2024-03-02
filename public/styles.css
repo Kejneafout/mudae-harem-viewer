@@ -4,18 +4,23 @@ body {
     font-size: 14px;
 }
 
-h1, h2 {
+h1, h3 {
     color: white;
     text-align: center;
 }
 
-label, p {
+label {
+    color: white;
+}
+
+p {
     color: white;
     font-weight: bold;
+    margin-bottom: 0px;
 }
 
 form {
-    margin: 50px auto;
+    margin: 10px auto;
     width: 300px;
     text-align: center;
 }
@@ -28,7 +33,7 @@ input[type="file"] {
 input[type="submit"], #useExistingData {
     background-color: #111214;
     color: white;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -102,7 +107,7 @@ input[type="submit"]:hover, #useExistingData:hover {
 #haremPages {
     font-size: 11px;
     margin-left: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 #buttonsDiv {
@@ -127,4 +132,9 @@ input[type="submit"]:hover, #useExistingData:hover {
 
 .buttonsImages {
     vertical-align: middle;
+}
+
+#optionsDiv {
+    margin-top: 15px;
+    margin-left: 50px;
 }
