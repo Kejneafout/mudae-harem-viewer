@@ -281,7 +281,7 @@ function displayData(data, options) {
 	var resultsContainer = document.createElement('div');
 
 	let item = data.characters[currentPage];
-	let dynamicText = `<b>${item.name}</b>`;
+	let dynamicText = `<b>${item.name}</b><br>`;
 
 	if (options.show.series) {
 	    dynamicText += `<br>${item.series}`;
