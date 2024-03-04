@@ -247,7 +247,7 @@ function displayData(data, options) {
 	    else
 		dynamicText += item.name;
 
-	    if (options.show.note) {
+	    if (options.show.note && item.note) {
 		dynamicText += ` | ${item.note}`;
 	    }
 	    if (options.show.series) {
