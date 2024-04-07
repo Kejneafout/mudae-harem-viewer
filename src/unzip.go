@@ -1,14 +1,14 @@
 package src
 
 import (
-    "archive/zip"
-    "bytes"
-    "errors"
-    "io"
-    "io/ioutil"
-    "os"
-    "path/filepath"
-    "strings"
+	"archive/zip"
+	"bytes"
+	"errors"
+	"io"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strings"
 )
 
 func UnzipArchive(file io.Reader) ([]byte, error) {
@@ -37,6 +37,7 @@ func UnzipArchive(file io.Reader) ([]byte, error) {
 		}
 
 		if zipFile.FileInfo().IsDir() {
+			os.RemoveAll(filePath)
 			os.MkdirAll(filePath, 0755)
 			continue
 		}
