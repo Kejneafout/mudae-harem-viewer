@@ -18,13 +18,17 @@
 	<input type="file" id="fileInput" name="file" accept=".zip" required>
 	<br>
 	<input type="submit" value="Upload">
-	<div class="message">Max file size: 100 MB</div>
+	<div class="message">No file size limit.</div>
 
 	<h3>OR</h3>
 
 	<button type="button" id="useExistingData">Use Existing Data</button>
 	<div class="message">If you already uploaded an archive.</div>
       </form>
+    </div>
+
+    <div id="overlayDiv">
+      <img src="" alt="Full Image" id="fullImage">
     </div>
 
     <div id="contentDiv">
@@ -41,7 +45,7 @@
 	<div id="haremContents">
 	  (No results)
 	</div>
-	<img id="characterImage" width="193" height="300" hidden>
+	<img id="characterImage" width="193" height="300" onclick="showFullImage()" hidden>
 	<div id="haremPages" hidden>
 	  Page <span id="currentPage">1</span> / <span id="maxPage">1</span>
 	</div>

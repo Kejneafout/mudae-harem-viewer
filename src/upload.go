@@ -6,7 +6,7 @@ import (
 
 func HandleFileUpload(w http.ResponseWriter, r *http.Request) {
 	// Parse the multipart form data
-	err := r.ParseMultipartForm(100 << 20) // 100 MB max file size
+	err := r.ParseMultipartForm(0) // 0 means no file size limit
 	if err != nil {
 		http.Error(w, "Unable to parse form", http.StatusBadRequest)
 		return

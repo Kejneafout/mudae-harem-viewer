@@ -1,4 +1,5 @@
 // Initialize global variables
+// Default display options
 displayOptions = {
     view: "list",
     sortBy: "default",
@@ -90,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener for the previous button
     document.getElementById("embedPrev").addEventListener("click", function() {
+	// Set currentPage to maxPage if it goes below one
 	if (currentPage <= 0)
 	    currentPage = maxPage;
 	else
@@ -107,6 +109,34 @@ document.addEventListener('DOMContentLoaded', function() {
 	    currentPage++;
 	document.getElementById("currentPage").innerText = currentPage + 1;
 	displayData(haremJson, displayOptions);
+    });
+
+    document.addEventListener('keydown', function(event) {
+	// Set currentPage to maxPage if it goes below one
+	if (event.keyCode === 37) { // Left arrow key
+	    if (currentPage <= 0)
+		currentPage = maxPage;
+	    else
+		currentPage--;
+	    document.getElementById("currentPage").innerText = currentPage + 1;
+	    displayData(haremJson, displayOptions);
+	}
+	if (event.keyCode === 39) { // Right arrow key
+	    // Reset currentPage if it goes above maxPage
+	    if (currentPage >= maxPage)
+		currentPage = 0;
+	    else
+		currentPage++;
+	    document.getElementById("currentPage").innerText = currentPage + 1;
+	    displayData(haremJson, displayOptions);
+	}
+    });
+    
+    // Hide the full image div when clicking outside of it
+    document.getElementById("overlayDiv").addEventListener("click", function(event) {
+	if (event.target === this) {
+	    hideFullImage();
+	}
     });
 });
 
@@ -198,6 +228,7 @@ function displayData(data, options) {
     var haremTitle = document.getElementById("haremTitle");
     var firstMarryImage = document.getElementById("firstMarryImage");
     var characterImage = document.getElementById("characterImage");
+    var fullImage = document.getElementById("fullImage");
 
     if (options.sortBy === "rank") {
         haremJson.characters = sortByRank(data.characters);
@@ -273,6 +304,7 @@ function displayData(data, options) {
 	firstMarryImage.style.display = "none";
 	// Show characterImage
 	characterImage.style.display = "inline";
+
         // Calculate the number of pages
         maxPage = haremJson.characters.length - 1;
         document.getElementById("maxPage").innerText = maxPage + 1;
@@ -308,5 +340,16 @@ function displayData(data, options) {
 	haremContents.appendChild(resultsContainer);
 	// Load the character image
 	characterImage.src = '/uploads/' + data.characters[currentPage].image;
+	fullImage.src = characterImage.src;
     }
+}
+
+// Function to set the full-size image source and display the overlay
+function showFullImage() {
+    document.getElementById("overlayDiv").style.display = "block";
+}
+
+// Function to hide the full image div
+function hideFullImage() {
+    document.getElementById("overlayDiv").style.display = "none";
 }
