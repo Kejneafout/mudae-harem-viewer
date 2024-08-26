@@ -34,14 +34,14 @@
     <div id="contentDiv">
 
       <div id="botDetails">
-	<img id="mudaeImage" src="assets/mudae.webp" width="40" height="40">
-	<b id="mudaeName">Mudae <img id="verifiedBotImage" src="assets/bot.webp"></b>
+	<img id="mudaeImage" src="assets/mudae.png" width="40" height="40">
+	<b id="mudaeName">Mudae <img id="verifiedBotImage" src="assets/bot.png"></b>
       </div>
 
       <div id="embedSim">
-	<img id="discordImage" src="assets/discord.webp" width="24" height="24">
+	<img id="discordImage" src="assets/discord.png" width="24" height="24">
 	<b id="haremTitle">Empty harem</b>
-	<img id="firstMarryImage" width="52" height="80" hidden>
+	<img id="firstMarryImage" width="52" height="80" onclick="showFullImage()" hidden>
 	<div id="haremContents">
 	  (No results)
 	</div>
@@ -53,10 +53,10 @@
 
       <div id="buttonsDiv" hidden>
 	<button class="embedButtons" id="embedPrev">
-	  <img class="buttonsImages" id="prevImage" src="assets/prev.webp" width="19" height="19">
+	  <img class="buttonsImages" id="prevImage" src="assets/prev.png" width="19" height="19">
 	</button>
 	<button class="embedButtons" id="embedNext">
-	  <img class="buttonsImages" id="nextImage" src="assets/next.webp" width="19" height="19">
+	  <img class="buttonsImages" id="nextImage" src="assets/next.png" width="19" height="19">
 	</button>
       </div>
 
@@ -80,6 +80,9 @@
       <br>
       <input type="radio" name="sortBy" id="sortByKakera" value="kakera">
       <label for="sortByKakera">Kakera</label>
+      <br>
+      <input type="radio" name="sortBy" id="sortByKeys" value="keys">
+      <label for="sortByKeys">Keys</label>
 
       <p>Show:</p>
       <input type="checkbox" name="show" id="showRank" value="rank">
@@ -91,8 +94,14 @@
       <input type="checkbox" name="show" id="showKakera" value="kakera">
       <label for="showKakera">Kakera</label>
       <br>
+      <input type="checkbox" name="show" id="showKeys" value="keys">
+      <label for="showKeys">Keys</label>
+      <br>
       <input type="checkbox" name="show" id="showNote" value="note">
       <label for="showNote">Note</label>
+      <br>
+      <input type="checkbox" name="large" id="showLarge" value="large">
+      <label for="showLarge">Large Image</label>
 
     </div>
 

@@ -16,6 +16,7 @@ You can view the following information about characters:
 - Name
 - Series
 - Value
+- Keys
 - Claim rank
 - Note
 - Image
@@ -57,12 +58,12 @@ The Mudae Harem Viewer relies on the following packages:
 
 - On Linux:
 ```bash
-./mudae-harem-viewer
+./mudae-harem-viewer-linux
 ```
 
 - On Windows:
 ```cmd
-.\mudae-harem-viewer.exe
+.\mudae-harem-viewer-windows.exe
 ```
 
 2. Access the app in your web browser at `http://localhost:3000`

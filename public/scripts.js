@@ -7,7 +7,9 @@ displayOptions = {
 	rank: false,
 	series: false,
 	kakera: false,
-	note: false
+	keys: false,
+	note: false,
+	large: false
     }
 };
 currentPage = 0;
@@ -179,7 +181,7 @@ function displayTotalValue(total) {
 
     // Add the kakera icon
     var kakeraIcon = document.createElement('img');
-    kakeraIcon.src = 'assets/kakera.webp';
+    kakeraIcon.src = 'assets/kakera.png';
     kakeraIcon.alt = 'ka';
     kakeraIcon.width = 18;
     kakeraIcon.height = 18;
@@ -219,6 +221,20 @@ function sortByKakera(data) {
     return (data);
 }
 
+// Sort the array based on the numerical part of the 'keys' property
+function sortByKeys(data) {
+    data.sort((a, b) => {
+	// Extract numeric values from the strings
+	const valueA = parseInt(a.keys);
+	const valueB = parseInt(b.keys);
+
+	// Put empty values at the end
+	return (valueB || 0) - (valueA || 0) || valueB - valueA;
+    });
+
+    return (data);
+}
+
 function displayData(data, options) {
     // Clear the haremContents div
     let haremContents = document.getElementById("haremContents");
@@ -234,9 +250,18 @@ function displayData(data, options) {
         haremJson.characters = sortByRank(data.characters);
     } else if (options.sortBy === "kakera") {
         haremJson.characters = sortByKakera(data.characters);
+    } else if (options.sortBy === "keys") {
+        haremJson.characters = sortByKeys(data.characters);
     } else {
         // Revert to original order
         haremJson.characters = originalOrder.slice();
+    }
+
+    // Enlarge image if checkbox is selected
+    if (options.show.large) {
+	fullImage.style.height = "100%";
+    } else {
+	fullImage.style.height = "";
     }
 
     if (options.view === "list") {
@@ -260,6 +285,7 @@ function displayData(data, options) {
 	var chunkEnd = 15 * (currentPage + 1);
 
 	firstMarryImage.src = '/uploads/' + data.characters[0].image;
+	fullImage.src = '/uploads/' + data.characters[0].image;
 
 	const currentChunk = data.characters.slice(chunkStart, chunkEnd);
 	currentChunk.forEach(function(item) {
@@ -280,6 +306,11 @@ function displayData(data, options) {
 
 	    if (options.show.note && item.note) {
 		dynamicText += ` | ${item.note}`;
+	    }
+	    if (options.show.keys && item.keys) {
+		// Show key icon based on item.keyType element
+		dynamicText += ` · <img src="assets/${item.keyType}.png" alt=":${item.keyType}:" width="18" height="18" style="vertical-align: middle;"> `;
+		dynamicText += `(<b>${item.keys}</b>)`;
 	    }
 	    if (options.show.series) {
 		dynamicText += ` - ${item.series}`;
@@ -324,13 +355,16 @@ function displayData(data, options) {
 	    // Display only the number in bold, without ka
 	    dynamicText += `<br><b>${parts[0]}</b>`;
 	    // Add the kakera icon directly to dynamicText
-	    dynamicText += `<img src="assets/kakera.webp" alt="ka" width="18" height="18" style="vertical-align: middle;">`;
+	    dynamicText += `<img src="assets/kakera.png" alt="ka" width="18" height="18" style="vertical-align: middle;">`;
     	}
-
+	if (options.show.keys && item.keys) {
+	    // Show key icon based on item.keyType element
+	    dynamicText += ` · <img src="assets/${item.keyType}.png" alt=":${item.keyType}:" width="18" height="18" style="vertical-align: middle;"> `;
+	    dynamicText += `(${item.keys})`;
+	}
 	if (options.show.rank) {
 	    dynamicText += `<br>Claim Rank: ${item.rank}`;
 	}
-
 	if (options.show.note) {
 	    dynamicText += `<br><i>${item.note}</i>`;
 	}
