@@ -64,48 +64,68 @@
     
     <div id="optionsDiv">
 
-      <p>View mode:</p>
-      <input type="radio" name="view" id="viewList" value="list" checked>
-      <label for="viewList">List</label>
-      <br>
-      <input type="radio" name="view" id="viewImage" value="image">
-      <label for="viewImage">Image</label>
+      <div class="topAlign">
+	<p>View</p>
+	<input type="radio" name="view" id="viewList" value="list" checked>
+	<label for="viewList">List</label>
+	<br>
+	<input type="radio" name="view" id="viewImage" value="image">
+	<label for="viewImage">Image</label>
+	<br>
+	<br>
+	<input type="checkbox" name="large" id="showLarge" value="large">
+	<label for="showLarge">Large Image</label>
+      </div>
 
-      <p>Sort by:</p>
-      <input type="radio" name="sortBy" id="sortByDefault" value="default" checked>
-      <label for="sortByDefault">Default</label>
-      <br>
-      <input type="radio" name="sortBy" id="sortByRank" value="rank">
-      <label for="sortByRank">Rank</label>
-      <br>
-      <input type="radio" name="sortBy" id="sortByKakera" value="kakera">
-      <label for="sortByKakera">Kakera</label>
-      <br>
-      <input type="radio" name="sortBy" id="sortByKeys" value="keys">
-      <label for="sortByKeys">Keys</label>
+      <div class="topAlign">
+	<p>Sort</p>
+	<input type="radio" name="sortBy" id="sortByDefault" value="default" checked>
+	<label for="sortByDefault">Default</label>
+	<br>
+	<input type="radio" name="sortBy" id="sortByRank" value="rank">
+	<label for="sortByRank">Rank</label>
+	<br>
+	<input type="radio" name="sortBy" id="sortByKakera" value="kakera">
+	<label for="sortByKakera">Kakera</label>
+	<br>
+	<input type="radio" name="sortBy" id="sortByKeys" value="keys">
+	<label for="sortByKeys">Keys</label>
+	<br>
+	<input type="radio" name="sortBy" id="sortByAtoZ" value="atoz">
+	<label for="sortByAtoZ">A-Z</label>
+      </div>
 
-      <p>Show:</p>
-      <input type="checkbox" name="show" id="showRank" value="rank">
-      <label for="showRank">Rank</label>
-      <br>
-      <input type="checkbox" name="show" id="showSeries" value="series">
-      <label for="showSeries">Series</label>
-      <br>
-      <input type="checkbox" name="show" id="showKakera" value="kakera">
-      <label for="showKakera">Kakera</label>
-      <br>
-      <input type="checkbox" name="show" id="showKeys" value="keys">
-      <label for="showKeys">Keys</label>
-      <br>
-      <input type="checkbox" name="show" id="showNote" value="note">
-      <label for="showNote">Note</label>
-      <br>
-      <input type="checkbox" name="large" id="showLarge" value="large">
-      <label for="showLarge">Large Image</label>
+      <div class="topAlign">
+	<p>Show</p>
+	<input type="checkbox" name="show" id="showRank" value="rank">
+	<label for="showRank">Rank</label>
+	<br>
+	<input type="checkbox" name="show" id="showSeries" value="series">
+	<label for="showSeries">Series</label>
+	<br>
+	<input type="checkbox" name="show" id="showKakera" value="kakera">
+	<label for="showKakera">Kakera</label>
+	<br>
+	<input type="checkbox" name="show" id="showKeys" value="keys">
+	<label for="showKeys">Keys</label>
+	<br>
+	<input type="checkbox" name="show" id="showNote" value="note">
+	<label for="showNote">Note</label>
+      </div>
+
+      <div class="topAlign">
+	<p>Series</p>
+	<select name="series" id="series" onchange="getSelectedOption(this);">
+	  <option value="all">All</option>
+	</select>
+      </div>
 
     </div>
 
-    <script src="scripts.js"></script>
+    <script src="fetch.js"></script>
+    <script src="display.js"></script>
+    <script src="sort.js"></script>
+    <script src="filter.js"></script>
   </body>
 
 </html>

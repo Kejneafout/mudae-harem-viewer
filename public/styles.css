@@ -16,6 +16,7 @@ label {
 p {
     color: white;
     font-weight: bold;
+    text-align: center;
 }
 
 
@@ -162,4 +163,13 @@ input[type="submit"]:hover, #useExistingData:hover {
 #optionsDiv {
     margin-top: 15px;
     margin-left: 50px;
+    position: absolute;
+}
+
+.topAlign {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    padding-inline: 10px; /* Padding left and right using a single rule */
+    border: solid 1px white;
 }
